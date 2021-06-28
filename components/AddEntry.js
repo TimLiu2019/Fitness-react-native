@@ -28,7 +28,7 @@ const AddEntry = () => {
 
     // Update Redux
 
-    setState(() => ({ run: 0, bike: 10, swim: 0, sleep: 0, eat: 0 }));
+    setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }));
 
     // Navigate to home
 
@@ -40,23 +40,27 @@ const AddEntry = () => {
   increment = metric => {
     const { max, step } = getMetricMetaInfo(metric);
     setState(
-      produce( draft => {
-      draft[metric] = draft[metric] > max ? max : draft[metric] + step
-    }));
+      produce(draft => {
+        draft[metric] = draft[metric] > max ? max : draft[metric] + step;
+      })
+    );
   };
 
   decrement = metric => {
     const { max, step } = getMetricMetaInfo(metric);
     setState(
-      produce( draft => {
-      draft[metric] = draft[metric] - step
-    }));
+      produce(draft => {
+        draft[metric] = draft[metric] - step;
+      })
+    );
   };
 
   slide = (metric, value) => {
-    setState(() => ({
-      [metric]: value
-    }));
+    setState(
+      produce(draft => {
+        draft[metric] = value;
+      })
+    );
   };
 
   const metaInfo = getMetricMetaInfo();
