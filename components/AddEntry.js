@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { getMetricMetaInfo, timeToString } from "../utils/helpers";
+import produce from "immer";
 import UdaciSlider from "./UdaciSlider";
 import UdaciSteppers from "./UdaciSteppers";
 import DateHeader from "./DateHeader";
@@ -38,15 +39,17 @@ const AddEntry = () => {
 
   increment = metric => {
     const { max, step } = getMetricMetaInfo(metric);
-    setState(state => ({
-      [metric]: state[metric] > max ? max : state[metric] + step
+    setState(
+      produce( draft => {
+      draft[metric] = draft[metric] > max ? max : draft[metric] + step
     }));
   };
 
   decrement = metric => {
     const { max, step } = getMetricMetaInfo(metric);
-    setState(state => ({
-      [metric]: state[metric] > max ? max : state[metric] - step
+    setState(
+      produce( draft => {
+      draft[metric] = draft[metric] - step
     }));
   };
 
@@ -86,7 +89,7 @@ const AddEntry = () => {
           </View>
         );
       })}
-       <SubmitBtn onPress={submit} />
+      <SubmitBtn onPress={submit} />
     </View>
   );
 };
