@@ -5,6 +5,8 @@ import produce from "immer";
 import UdaciSlider from "./UdaciSlider";
 import UdaciSteppers from "./UdaciSteppers";
 import DateHeader from "./DateHeader";
+import { Ionicons } from "@expo/vector-icons";
+import TextButton from "./TextButton";
 function SubmitBtn({ onPress }) {
   return (
     <TouchableOpacity onPress={onPress}>
@@ -13,7 +15,7 @@ function SubmitBtn({ onPress }) {
   );
 }
 
-const AddEntry = () => {
+const AddEntry = props => {
   const [state, setState] = useState({
     run: 0,
     bike: 0,
@@ -63,7 +65,19 @@ const AddEntry = () => {
     );
   };
 
+  reset = () => {
+    const key = timeToString();
+  };
   const metaInfo = getMetricMetaInfo();
+  if (props.alreadyLogged) {
+    return (
+      <View>
+        <Text>You already logged your information for today.</Text>
+        <Ionicons name={"ios-happy"} size={100} />
+        <TextButton onPress={this.reset}>Reset</TextButton>
+      </View>
+    );
+  }
 
   return (
     <View>
