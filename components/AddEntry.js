@@ -8,6 +8,9 @@ import DateHeader from "./DateHeader";
 import { Ionicons } from "@expo/vector-icons";
 import TextButton from "./TextButton";
 import { submitEntry, removeEntry } from "../utils/api";
+import { connect } from "react-redux";
+import { addEntry } from "../actions";
+
 function SubmitBtn({ onPress }) {
   return (
     <TouchableOpacity onPress={onPress}>
@@ -30,6 +33,11 @@ const AddEntry = props => {
     const entry = state;
 
     // Update Redux
+    props.dispatch(
+      addEntry({
+        [key]: entry
+      })
+    );
 
     setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }));
 
@@ -69,6 +77,13 @@ const AddEntry = props => {
 
   reset = () => {
     const key = timeToString();
+
+    // update Redux
+    props.dispatch(
+      addEntry({
+        [key]: getDailyReminderValue()
+      })
+    );
 
     removeEntry(key);
   };
@@ -116,4 +131,12 @@ const AddEntry = props => {
   );
 };
 
-export default AddEntry;
+function mapStateToProps(state) {
+  const key = timeToString();
+
+  return {
+    alreadyLogged: state[key] && typeof state[key].today === "undefined"
+  };
+}
+
+export default connect(mapStateToProps)(AddEntry);
