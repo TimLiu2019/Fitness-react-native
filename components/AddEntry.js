@@ -122,7 +122,7 @@ const AddEntry = props => {
         const { getIcon, type, ...rest } = metaInfo[key];
         let value = state[key];
         return (
-          <View key={key}>
+          <View key={key} style={styles.row}>
             {getIcon()}
             {type === "slider" ? (
               <UdaciSlider

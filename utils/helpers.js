@@ -45,6 +45,7 @@ export function getMetricMetaInfo(metric) {
     bike: {
       displayName: "Bike",
       max: 100,
+      unit: "miles",
       step: 1,
       type: "steppers",
       getIcon() {
