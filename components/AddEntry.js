@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Platfrom
+  Platform
 } from "react-native";
 import { getMetricMetaInfo, timeToString } from "../utils/helpers";
 import produce from "immer";
@@ -116,7 +116,7 @@ const AddEntry = props => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <DateHeader date={new Date().toLocaleDateString()} />
       {Object.keys(metaInfo).map(key => {
         const { getIcon, type, ...rest } = metaInfo[key];
