@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,8 +14,11 @@ import UdaciFitnessCalendar from "udacifitness-calendar";
 import { white } from "../utils/colors";
 import DateHeader from "./DateHeader";
 import MetricCard from "./MetricCard";
+import AppLoading from 'expo-app-loading'
 
 const History = props => {
+  const [ready, setReady] = useState(false);
+
   const { dispatch } = props;
   useEffect(() => {
     fetchCalendarResults()
@@ -28,7 +31,8 @@ const History = props => {
             })
           );
         }
-      });
+      })
+      .then(() => setReady(true));
     // .then(() => this.setState(() => ({ ready: true })));
   }, []);
 
@@ -57,6 +61,10 @@ const History = props => {
   };
 
   const { entries } = props;
+
+  if (ready === false) {
+    return <AppLoading />;
+  }
 
   return (
     <UdaciFitnessCalendar
