@@ -14,7 +14,7 @@ import UdaciFitnessCalendar from "udacifitness-calendar";
 import { white } from "../utils/colors";
 import DateHeader from "./DateHeader";
 import MetricCard from "./MetricCard";
-import AppLoading from 'expo-app-loading'
+import AppLoading from "expo-app-loading";
 
 const History = props => {
   const [ready, setReady] = useState(false);
@@ -44,7 +44,11 @@ const History = props => {
           <Text style={styles.noDataText}>{today}</Text>
         </View>
       ) : (
-        <TouchableOpacity onPress={() => console.log("Pressed!")}>
+        <TouchableOpacity
+          onPress={() =>
+            props.navigation.navigate("EntryDetail", { entryId: key })
+          }
+        >
           <MetricCard date={formattedDate} metrics={metrics} />
         </TouchableOpacity>
       )}
