@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
-import { View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import { connect } from "react-redux";
+import MetricCard from "./MetricCard";
+import { white } from "../utils/colors";
 
 const EntryDetail = props => {
   useEffect(() => {
@@ -19,11 +22,29 @@ const EntryDetail = props => {
     });
   };
 
+  const { entryId, metrics } = props;
+
   return (
-    <View>
-      <Text>Entry Detail - {JSON.stringify(props.route.params.entryId)}</Text>
+    <View style={styles.container}>
+      <MetricCard metrics={metrics} date={entryId} />
     </View>
   );
 };
 
-export default EntryDetail;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: white,
+    padding: 15
+  }
+});
+
+function mapStateToProps(state, { route }) {
+  const { entryId } = route.params;
+  return {
+    entryId,
+    metrics: state[entryId]
+  };
+}
+
+export default connect(mapStateToProps)(EntryDetail);
