@@ -17,6 +17,7 @@ import { submitEntry, removeEntry } from "../utils/api";
 import { connect } from "react-redux";
 import { addEntry } from "../actions";
 import { purple, white } from "../utils/colors";
+import { CommonActions } from "@react-navigation/native";
 
 function SubmitBtn({ onPress }) {
   return (
@@ -54,7 +55,7 @@ const AddEntry = props => {
     setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }));
 
     // Navigate to home
-
+    toHome();
     // Save to "DB"
     submitEntry({ key, entry });
 
@@ -96,8 +97,16 @@ const AddEntry = props => {
         [key]: getDailyReminderValue()
       })
     );
-
+    toHome();
     removeEntry(key);
+  };
+
+  const toHome = () => {
+    props.navigation.dispatch(
+      CommonActions.goBack({
+        key: "AddEntry"
+      })
+    );
   };
   const metaInfo = getMetricMetaInfo();
   if (props.alreadyLogged) {
