@@ -15,6 +15,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { NavigationContainer } from "@react-navigation/native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { purple, white } from "./utils/colors";
+import Live from './components/Live'
 
 export default function App() {
   function UdaciStatusBar({ backgroundColor, ...props }) {
@@ -40,7 +41,10 @@ export default function App() {
             icon = <FontAwesome name="plus-square" size={size} color={color} />;
           } else if (route.name === "History") {
             icon = <Ionicons name="ios-bookmarks" size={size} color={color} />;
+          }else if (route.name === "Live") {
+            icon = <Ionicons name="ios-speedometer" size={size} color={color} />;
           }
+          
           return icon;
         }
       })}
@@ -63,6 +67,7 @@ export default function App() {
     >
       <Tabs.Screen name="Add Entry" component={AddEntry} />
       <Tabs.Screen name="History" component={History} />
+      <Tabs.Screen name="Live" component={Live} />
     </Tabs.Navigator>
   );
   const Stack = createStackNavigator();
