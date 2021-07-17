@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet
 } from "react-native";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import { calculateDirection } from "../utils/helpers";
 import { Foundation } from "@expo/vector-icons";
 import { purple, white } from "../utils/colors";
 
@@ -14,6 +17,39 @@ export default class Live extends Component {
     coords: null,
     status: "granted",
     direction: ""
+  };
+
+  componentDidMount() {
+    Permissions.getAsync(Permissions.LOCATION)
+      .then(({ status }) => {
+        if (status === "granted") {
+          return this.setLocation();
+        }
+        this.setState({ status });
+      })
+      .catch(err => {
+        console.warn("Error getting location permission");
+        this.setState({ status: "undetermined" });
+      });
+  }
+
+  setLocation = () => {
+    Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.BestForNavigation,
+        timeInterval: 100,
+        distanceInterval: 1
+      },
+      ({ coords }) => {
+        const newDirection = calculateDirection(coords.heading);
+        const { direction } = this.state;
+        this.setState(() => ({
+          coords,
+          status: "granted",
+          direction: newDirection
+        }));
+      }
+    );
   };
 
   askPermission = () => {};
